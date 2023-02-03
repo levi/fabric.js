@@ -565,14 +565,16 @@ var pointerDetect = {
 
 var getEventSupport = (function() {
 	root.supports = {};
-	if (window.navigator.msPointerEnabled) {
-		root.supports.msPointer = true;
-	}
-	if (root.getEventSupport("touchstart")) {
-		root.supports.touch = true;
-	}
-	if (root.getEventSupport("mousedown")) {
-		root.supports.mouse = true;
+	if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+		if (window.navigator.msPointerEnabled) {
+			root.supports.msPointer = true;
+		}
+		if (root.getEventSupport("touchstart")) {
+			root.supports.touch = true;
+		}
+		if (root.getEventSupport("mousedown")) {
+			root.supports.mouse = true;
+		}
 	}
 })();
 
@@ -603,8 +605,10 @@ var getID = function(object) {
 };
 
 /// Detect platforms native *EventListener command.
-var add = document.addEventListener ? "addEventListener" : "attachEvent";
-var remove = document.removeEventListener ? "removeEventListener" : "detachEvent";
+if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+	var add = document.addEventListener ? "addEventListener" : "attachEvent";
+	var remove = document.removeEventListener ? "removeEventListener" : "detachEvent";
+}
 
 /*
 	Pointer.js
@@ -1137,6 +1141,7 @@ root.getBoundingBox = function(o) {
 	http://unixpapa.com/js/key.html
 */
 
+if (typeof document !== 'undefined' && typeof window !== 'undefined') {
 (function() {
 	var agent = navigator.userAgent.toLowerCase();
 	var mac = agent.indexOf("macintosh") !== -1;
@@ -1165,6 +1170,7 @@ root.getBoundingBox = function(o) {
 		eventjs.altKey = root.altKey = event.altKey;
 	};
 })();
+}
 
 return root;
 
@@ -1180,6 +1186,7 @@ return root;
 if (typeof(eventjs) === "undefined") var eventjs = {};
 
 eventjs.MutationObserver = (function() {
+  if (typeof document !== 'undefined' && typeof window !== 'undefined') {
 	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
 	var DOMAttrModifiedSupported = !MutationObserver && (function() {
 		var p = document.createElement("p");
@@ -1220,6 +1227,7 @@ eventjs.MutationObserver = (function() {
 			});
 		}
 	}
+}
 })();
 /*:
 	"Click" event proxy.
